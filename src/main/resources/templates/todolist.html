@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link href="/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <title>Todo List</title>
+</head>
+
+<body class="container">
+<div class="text-center">
+<h1>Todos for today:</h1>
+<p><a href="http://localhost:8080/todo/add" class="btn btn-warning">Add new todo</a></p>
+</div>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>ACTION</th>
+        <th>DONE</th>
+        <th>URGENT</th>
+        <th>Date</th>
+        <th>Delete</th>
+        <th>Edit</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="todo : ${todos}">
+        <td th:text="${todo.getId()}"></td>
+
+        <td> <a th:href="@{|?desc=${todo.id}|}"  th:text="${todo.title}"> </a>  </td>
+
+        <td>
+            <span th:if="${todo.getDone()}" class="glyphicon glyphicon-ok"></span>
+            <span th:unless="${todo.getDone()}" class="glyphicon glyphicon-remove"></span>
+        </td>
+
+        <td>
+            <span th:if="${todo.getUrgent()}" class="glyphicon glyphicon-ok"></span>
+            <span th:unless="${todo.getUrgent()}" class="glyphicon glyphicon-remove"></span>
+
+        </td>
+        <td th:text="${todo.getMydate()}"></td>
+        <td><a th:href="|${todo.getId()}/delete|" class="btn btn-danger">Delete</a></td>
+        <td><a th:href="|${todo.getId()}/edit|" class="btn btn-info">Edit</a></td>
+    </tr>
+    </tbody>
+</table>
+
+<div class=" description" th:if="${desc} != null">
+    <h1>Description</h1>
+    <p th:text="${desc.description}"></p>
+    <p><a href="http://localhost:8080/todo/list">Hide</a></p>
+</div>
+
+<script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
+<script src="/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
+
+
+</body>
+</html>
