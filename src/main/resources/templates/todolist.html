@@ -9,9 +9,17 @@
 
 <body class="container">
 <div class="text-center">
-<h1>Todos for today:</h1>
-<p><a href="http://localhost:8080/todo/add" class="btn btn-warning">Add new todo</a></p>
+    <h1>Todos for today:</h1>
+    <p><a href="http://localhost:8080/todo/add" class="btn btn-warning">Add new todo</a></p>
 </div>
+
+<div>
+    <form th:action="@{/todo/list}" method="get">
+        <input type="text" name="search" placeholder="search"/>
+        <button type="submit" class="btn btn-success">Search</button>
+    </form>
+</div>
+
 <table class="table table-striped">
     <thead>
     <tr>
@@ -25,35 +33,45 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="todo : ${todos}">
+    <tr th:each="todo : ${todos}" th:object="${todo}">
+
         <td th:text="${todo.getId()}"></td>
 
-        <td> <a th:href="@{|?desc=${todo.id}|}"  th:text="${todo.title}"> </a>  </td>
+        <td>
+            <a th:href="@{|?desc=${todo.id}&search=${searchstring}|}" th:text="*{title}"> </a>
+
+        </td>
+
 
         <td>
-            <span th:if="${todo.getDone()}" class="glyphicon glyphicon-ok"></span>
-            <span th:unless="${todo.getDone()}" class="glyphicon glyphicon-remove"></span>
+            <span th:if="*{done}" class="glyphicon glyphicon-ok"></span>
+            <span th:unless="*{done}" class="glyphicon glyphicon-remove"></span>
         </td>
 
         <td>
-            <span th:if="${todo.getUrgent()}" class="glyphicon glyphicon-ok"></span>
-            <span th:unless="${todo.getUrgent()}" class="glyphicon glyphicon-remove"></span>
+            <span th:if="*{urgent}" class="glyphicon glyphicon-ok"></span>
+            <span th:unless="*{urgent}" class="glyphicon glyphicon-remove"></span>
 
         </td>
-        <td th:text="${todo.getMydate()}"></td>
+
+        <td th:text="*{date}"></td>
         <td><a th:href="|${todo.getId()}/delete|" class="btn btn-danger">Delete</a></td>
         <td><a th:href="|${todo.getId()}/edit|" class="btn btn-info">Edit</a></td>
     </tr>
     </tbody>
 </table>
 
-<div class=" description" th:if="${desc} != null">
+
+
+<div class=" description" th:if="${desc} != null"  >
     <h1>Description</h1>
     <p th:text="${desc.description}"></p>
-    <p><a href="http://localhost:8080/todo/list">Hide</a></p>
 </div>
 
-<script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
+<a th:if="${searchstring}!= null" href="http://localhost:8080/todo/list">Back</a>
+
+
+<script src="/webjar s/jquery/1.11.1/jquery.min.js"></script>
 <script src="/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
 
 

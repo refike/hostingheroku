@@ -1,7 +1,7 @@
-package com.exercise.todoprojekt.Controllers;
+package com.exercise.todoprojekt.application.Controllers;
 
-import com.exercise.todoprojekt.model.Todo;
-import com.exercise.todoprojekt.Repository.TodoRepository;
+import com.exercise.todoprojekt.application.Repository.model.Todo;
+import com.exercise.todoprojekt.application.Repository.TodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,15 +22,31 @@ public class Todocontroller {
 
 
     @GetMapping({"", "/", "/list"})
-    public String list(Model model, @RequestParam(name = "isActive", required = false) Boolean isActive ,
-                                    @RequestParam (name = "desc", required = false) Long id) {
-        if(id != null) {
-            model.addAttribute("desc",todoRepository.findById(id).get());
+    public String list(Model model, @RequestParam(name = "isActive", required = false) Boolean isActive,
+                                    @RequestParam(name = "desc", required = false) Long id,
+                                    @RequestParam(value = "search", required = false) String search) {
+
+        model.addAttribute("searchstring", search);
+
+        if (id != null && todoRepository.findById(id).isPresent()) {
+            model.addAttribute("desc", todoRepository.findById(id).get());
+            model.addAttribute("todos", todoRepository.findAllByTitleContainsOrDescriptionContains(search, search));
+            System.out.println("descnsearch");
+            return "todolist";
         }
-        if (isActive == null) {
-            model.addAttribute("todos", todoRepository.findAll());
-        } else if (isActive) {
+
+        if (search != null) {
+            model.addAttribute("todos", todoRepository.findAllByTitleContainsOrDescriptionContains(search, search));
+            System.out.println("search");
+            return "todolist";
+        }
+
+        if (isActive != null && isActive) {
             model.addAttribute("todos", todoRepository.findByDone(!isActive));
+            System.out.println("active");
+        } else {
+            model.addAttribute("todos", todoRepository.findAllByOrderByDateDesc());
+            System.out.println("all");
         }
         return "todolist";
     }

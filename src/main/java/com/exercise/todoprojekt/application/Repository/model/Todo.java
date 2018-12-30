@@ -1,12 +1,10 @@
-package com.exercise.todoprojekt.model;
+package com.exercise.todoprojekt.application.Repository.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@Table(name="todos")
 public class Todo {
 
     @Id
@@ -15,7 +13,7 @@ public class Todo {
     private String title;
     private Boolean urgent = false;
     private Boolean done = false;
-    private Date mydate = new Date();
+    private Date date = new Date();
     private String description;
 
 
@@ -53,8 +51,8 @@ public class Todo {
         this.done = done;
     }
 
-    public Date getMydate() {
-        return mydate;
+    public Date getDate() {
+        return date;
     }
 
 
