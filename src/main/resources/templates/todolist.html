@@ -68,7 +68,7 @@
     <p th:text="${desc.description}"></p>
 </div>
 
-<a th:if="${searchstring}!= null" href="http://localhost:8080/todo/list">Back</a>
+<a th:if="${searchstring}!= null" href="@{/todo/list}">Back</a>
 
 
 <script src="/webjar s/jquery/1.11.1/jquery.min.js"></script>
