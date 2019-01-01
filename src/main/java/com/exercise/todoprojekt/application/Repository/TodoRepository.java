@@ -10,6 +10,7 @@ public interface TodoRepository extends CrudRepository<Todo,Long> {
     List<Todo> findAllByOrderByDateDesc();
     List<Todo> findByDone(Boolean b);
     List<Todo> findAllByTitleContainsOrDescriptionContains(String title, String description);
+    List<Todo> findAllByAssignee_Id(Long id);
 
 
 }

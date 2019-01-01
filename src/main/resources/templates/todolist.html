@@ -11,6 +11,8 @@
 <div class="text-center">
     <h1 onclick="location.href='/todo/list'">Todos for today:</h1>
     <p><a th:href="@{/todo/add}" class="btn btn-warning">Add new todo</a></p>
+    <a th:href="@{/todo/?isActive=true}">Active todos</a><br>
+    <a th:href="@{/assignee/list}">Assignees</a>
 </div>
 
 <div>
@@ -28,20 +30,20 @@
         <th>DONE</th>
         <th>URGENT</th>
         <th>Date</th>
+        <th>Assignee</th>
         <th>Delete</th>
         <th>Edit</th>
     </tr>
     </thead>
+
     <tbody>
     <tr th:each="todo : ${todos}" th:object="${todo}">
 
         <td th:text="*{id}"></td>
-
+        <!--ez a searchstring és & mire kell itt?-->
         <td>
             <a th:href="@{|/todo/?desc=${todo.id}&search=${searchstring}|}" th:text="*{title}"> </a>
-
         </td>
-
 
         <td>
             <span th:if="*{done}" class="glyphicon glyphicon-ok"></span>
@@ -51,16 +53,19 @@
         <td>
             <span th:if="*{urgent}" class="glyphicon glyphicon-ok"></span>
             <span th:unless="*{urgent}" class="glyphicon glyphicon-remove"></span>
-
         </td>
 
         <td th:text="*{date}"></td>
+
+        <td th:text="*{assignee != null} ? *{assignee.name} : 'Not assigned'"></td>
+
         <td><a th:href="@{|/todo/${todo.id}/delete|}" class="btn btn-danger">Delete</a></td>
         <td><a th:href="@{|/todo/${todo.id}/edit|}" class="btn btn-info">Edit</a></td>
+
     </tr>
     </tbody>
-</table>
 
+</table>
 
 
 <div class=" description" th:if="${desc} != null"  >

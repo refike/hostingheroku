@@ -13,18 +13,36 @@ public class Todo {
     private String title;
     private Boolean urgent = false;
     private Boolean done = false;
+    @Temporal(TemporalType.TIMESTAMP)
     private Date date = new Date();
     private String description;
 
+    @ManyToOne(fetch = FetchType.EAGER) // ugyan azon kérdések mint az Assigneenél
+    @JoinColumn(name = "assignee_id")
+    protected Assignee assignee;
+
 
     public Todo() {
+        urgent = false;
+        done = false;
+        date = new Date();
+        description = "";
     }
+
 
     public Todo( String title, Boolean urgent, Boolean done,String description) {
         this.title = title;
         this.urgent = urgent;
         this.done = done;
         this.description = description;
+    }
+
+    public Assignee getAssignee() {
+        return assignee;
+    }
+
+    public void setAssignee(Assignee assignee) {
+        this.assignee = assignee;
     }
 
     public String getDescription() {

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Assignees</title>
+    <link rel="stylesheet" type="text/css" href="/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+</head>
+<body>
+<a th:href="@{/todo/list}">Back</a>
+<h1 onclick="location.href='/assignee/list'">Assignees</h1>
+<a th:href="@{/assignee/add}">Add new</a>
+
+<form th:if="${newAssignee} != null"th:action="@{/assignee/add}" th:method="post" th:object="${newAssignee}">
+    <h1>Add new assignee</h1>
+    <label for="addassignee">Name:</label>
+    <input type="text" id="addassignee" th:field="*{name}"/>
+    <label for="addemail">Email:</label>
+    <input type="text" id="addemail" th:field="*{email}"/>
+    <button type="submit">Add Assignee</button>
+</form>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="assignee : ${allassignee}" th:object="${assignee}">
+        <td th:text="*{id}"></td>
+        <td th:text="*{name}"></td>
+        <td th:text="*{email}"></td>
+        <td><a th:href="@{|/assignee/${assignee.id}/delete|}">delete</a></td>
+        <td><a th:href="@{|/assignee/${assignee.id}/edit|}">edit</a></td>
+    </tr>
+    </tbody>
+</table>
+
+<form th:if="${editAssignee} != null" th:action="@{edit}" th:method="post" th:object="${editAssignee}">
+    <label for="editassignee">Edit Assignee</label>
+    <input type="text" id="editassignee" th:field="*{name}"/>
+    <label for="editemail">Edit Email</label>
+    <input type="text" id="editemail" th:field="*{email}"/>
+    <input type="submit" th:value="Update">
+</form>
+</body>
+</html>
