@@ -40,7 +40,8 @@ public class Todocontroller {
 
         if (id != null && todoRepository.findById(id).isPresent()) {
             model.addAttribute("desc", todoRepository.findById(id).get());
-            model.addAttribute("todos", todoRepository.findAllByTitleContainsOrDescriptionContains(search, search)); //miért kell megismételni ezket többször is? illetve erre az IF részre mi szükség ?
+            model.addAttribute("todos", todoRepository.findAllByTitleContainsOrDescriptionContains(search, search));
+            //miért kell megismételni ezket többször is? illetve erre az IF részre mi szükség ?
             System.out.println("descnsearch");
             return "todolist";
         }

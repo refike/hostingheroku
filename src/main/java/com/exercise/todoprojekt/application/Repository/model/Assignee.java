@@ -55,4 +55,9 @@ public class Assignee {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    @PreRemove
+    public void setNull(){
+        todosList.forEach(a -> a.setAssignee(null));
+    }
 }

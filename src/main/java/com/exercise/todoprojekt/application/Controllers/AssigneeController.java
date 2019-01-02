@@ -60,7 +60,7 @@ public class AssigneeController {
 
     @GetMapping(value = "{id}/delete")
     public String deleteAssignee(@PathVariable Long id) {
-        todoRepository.findAllByAssignee_Id(id).forEach(todo -> todo.setAssignee(null)); // ez miért ?
+        // todoRepository.findAllByAssignee_Id(id).forEach(todo -> todo.setAssignee(null)); // ez miért ?
         if (assigneeRepository.findById(id).isPresent()) {
             assigneeRepository.delete(assigneeRepository.findById(id).get());
         }
